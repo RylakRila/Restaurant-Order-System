@@ -1437,6 +1437,11 @@
     tslib "2.4.1"
     uuid "9.0.0"
 
+"@nestjs/mongoose@^9.2.1":
+  version "9.2.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/mongoose/-/mongoose-9.2.1.tgz#b880feb7ce52a081e81374ddf3c3ed0eff1224f4"
+  integrity sha512-tMK5kKFjQnNVhqJDw1wa352z+VsODOFznTn74xSzrziof03qS+O6rLU4q1kMx0B4AmFbADf03GOdpvBc9bMWqw==
+
 "@nestjs/platform-express@^9.0.0":
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-9.2.0.tgz#17e3a49df7bf8710f64c2b6db25c4457e6fd0ba9"
@@ -2684,6 +2689,11 @@ doctrine@^3.0.0:
   integrity sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==
   dependencies:
     esutils "^2.0.2"
+
+dotenv@^16.0.3:
+  version "16.0.3"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
+  integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -5452,6 +5462,36 @@ webpack@5.74.0:
   version "5.74.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.74.0.tgz#02a5dac19a17e0bb47093f2be67c695102a55980"
   integrity sha512-A2InDwnhhGN4LYctJj6M1JEaGL7Luj6LOmyBHjcI8529cm5p6VXiTIW2sn6ffvEAKmveLzvu4jrihwXtPojlAA==
+  dependencies:
+    "@types/eslint-scope" "^3.7.3"
+    "@types/estree" "^0.0.51"
+    "@webassemblyjs/ast" "1.11.1"
+    "@webassemblyjs/wasm-edit" "1.11.1"
+    "@webassemblyjs/wasm-parser" "1.11.1"
+    acorn "^8.7.1"
+    acorn-import-assertions "^1.7.6"
+    browserslist "^4.14.5"
+    chrome-trace-event "^1.0.2"
+    enhanced-resolve "^5.10.0"
+    es-module-lexer "^0.9.0"
+    eslint-scope "5.1.1"
+    events "^3.2.0"
+    glob-to-regexp "^0.4.1"
+    graceful-fs "^4.2.9"
+    json-parse-even-better-errors "^2.3.1"
+    loader-runner "^4.2.0"
+    mime-types "^2.1.27"
+    neo-async "^2.6.2"
+    schema-utils "^3.1.0"
+    tapable "^2.1.1"
+    terser-webpack-plugin "^5.1.3"
+    watchpack "^2.4.0"
+    webpack-sources "^3.2.3"
+
+webpack@^5.75.0:
+  version "5.75.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.75.0.tgz#1e440468647b2505860e94c9ff3e44d5b582c152"
+  integrity sha512-piaIaoVJlqMsPtX/+3KTTO6jfvrSYgauFVdt8cr9LTHKmcq/AMd4mhzsiP7ZF/PGRNPGA8336jldh9l2Kt2ogQ==
   dependencies:
     "@types/eslint-scope" "^3.7.3"
     "@types/estree" "^0.0.51"
