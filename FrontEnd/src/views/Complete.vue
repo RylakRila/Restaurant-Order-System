@@ -1,6 +1,17 @@
 <template>
   <div id="complete">
     <div id="title">Complete</div>
+
+    <h2 style="margin: 80px auto; font-weight: bold; text-align: center;">Thank you!</h2>
+
+    <div id="textBox">
+      <p style="margin-top: 20px; font-weight: bold; font-size: 22px;">Here is Your Number</p>
+    </div>
+
+    <router-link :to="{name: 'Home Page'}">
+          <button class="checkBtn">Home</button>
+    </router-link> 
+
   </div>
 </template>
 
@@ -27,5 +38,13 @@ export default {
   background: #5029AA;
   Height: 50px;
   line-height: 50px;
+}
+
+#textBox {
+  width: 400px;
+  height: 200px;
+  border-style: solid;
+  margin: 80px auto;
+  border-radius:30px;
 }
 </style>

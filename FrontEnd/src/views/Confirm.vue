@@ -1,6 +1,19 @@
 <template>
   <div id="confirm">
     <div id="title">Confirm</div>
+
+    <h3 style="margin: 30px; font-weight: bold; text-align: center;">Please Confirm Your Order</h3>
+    <hr style="width: 30%; margin: auto;">
+
+    <div id="orderBox">
+      <!--Place order here--> 
+    </div>
+
+    <div>
+      <router-link :to="{name: 'Payment'}">
+        <button id="payBtn">Pay</button>
+      </router-link>  
+    </div>
   </div>
 </template>
 
@@ -28,4 +41,10 @@ export default {
   Height: 50px;
   line-height: 50px;
 }
+
+#orderBox {
+  Height: 50vh;
+  margin-top: 20px;
+}
+
 </style>

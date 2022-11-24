@@ -11,7 +11,9 @@
     <div id="sidebar_right">Shopping Cart
       <div class="checkDiv">
         <p>Total: $</p>
-        <button class="checkBtn">Check Out</button>
+        <router-link :to="{name: 'Confirm'}">
+          <button class="checkBtn">Check Out</button>
+        </router-link>  
       </div>
     </div>
 　  
@@ -130,6 +132,7 @@ export default {
   width: 100px;
   height: 50px;
   background: #5029AA;
+  border-style: none;
 }
 
 </style>
