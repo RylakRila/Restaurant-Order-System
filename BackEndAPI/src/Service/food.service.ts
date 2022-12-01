@@ -28,7 +28,8 @@ export class FoodService {
             recommended
         })
         
-        await newFood.save();
+        const result = await newFood.save();
+        return result;
     }
     
     async getMealFood() {
@@ -39,5 +40,15 @@ export class FoodService {
     async getDessertFood() {
         const dessertFoods = await this.foodModel.find({category: 'Dessert'}).exec();
         return dessertFoods as Food[];
+    }
+    
+    async getDrinkFood() {
+        const drinkFoods = await this.foodModel.find({category: 'Drink'}).exec();
+        return drinkFoods as Food[];
+    }
+    
+    async getSnackFood() {
+        const snackFoods = await this.foodModel.find({category: 'Snack'}).exec();
+        return snackFoods as Food[];
     }
 }
