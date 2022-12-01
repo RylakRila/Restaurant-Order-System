@@ -7,7 +7,8 @@ import { Food } from "../Model/Food.Model";
 @Injectable()
 export class FoodService {
     constructor(
-        @InjectModel('Food') private readonly foodModel: Model<Food>
+        @InjectModel('Food') 
+        private readonly foodModel: Model<Food>
     ) {}
     
     async addMenuFood(
@@ -27,6 +28,16 @@ export class FoodService {
             recommended
         })
         
-        const result = await newFood.save();
+        await newFood.save();
+    }
+    
+    async getMealFood() {
+        const mealFoods = await this.foodModel.find({category: 'Meal'}).exec();
+        return mealFoods as Food[];
+    }
+    
+    async getDessertFood() {
+        const dessertFoods = await this.foodModel.find({category: 'Dessert'}).exec();
+        return dessertFoods as Food[];
     }
 }

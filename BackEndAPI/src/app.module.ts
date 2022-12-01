@@ -4,7 +4,9 @@ import * as dotenv from 'dotenv'
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { FoodController } from './Controller/food.controller';
 import { FoodSchema } from './Model/food.model';
+import { FoodService } from './Service/food.service';
 
 dotenv.config();
 
@@ -13,7 +15,7 @@ dotenv.config();
     MongooseModule.forRoot(process.env.DB_URL),
     MongooseModule.forFeature([{name: 'Food', schema: FoodSchema}])
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, FoodController],
+  providers: [AppService, FoodService],
 })
 export class AppModule {}
