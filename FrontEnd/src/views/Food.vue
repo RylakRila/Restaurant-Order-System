@@ -2,11 +2,11 @@
   <div id="food">
     <div id="title">Foods</div>
 　  <div id="sidebar_left">
-      <button class="menuBtn" >Meal</button>
-      <button class="menuBtn" >Snack</button>
-      <button class="menuBtn" >Dessert</button>
-      <button class="menuBtn" >Drink</button>
-    </div>
+      <button class="menuBtn" id="meal" value="meals">Meal</button>
+      <button class="menuBtn" id="snack" value="snacks">Snack</button>
+      <button class="menuBtn" id="dessert" value="desserts">Dessert</button>
+      <button class="menuBtn" id="drink" value="drinks">Drink</button>
+</div>
 
     <div id="sidebar_right">Shopping Cart
       <div class="checkDiv">
@@ -19,13 +19,119 @@
 　  
     <div id="content">
       <input type="text" class="search" placeholder="Search foods..."/>
+      <table style="width: 100%">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="food in Foods" :key="food.id">
+            <td>{{ food.foodName}}</td>
+            <td>{{ food.price}}</td>
+            <td>
+              <img v-bind:src="food.imageLink" width="100" height="100"/>
+             </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
+const url = 'http://localhost:3000/api/food/';
+let choose;
+
+const URL = '/testData.json';
 export default {
-  name: 'Food Page'
+  name: 'FoodPage',
+  data() {
+    return {
+      Foods: [],
+    }
+  },
+  methods: {
+    meal() {
+      const meal = document.getElementById("meal");
+      //console.log(meal.value)
+      meal.addEventListener('click', function() {
+        choose = meal.value;
+        console.log(choose)
+        axios.get(url + choose)
+          .then((response) => {
+          console.log(response.data);
+          this.Foods = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+    },
+    snack() {
+      const snack = document.getElementById("snack");
+      snack.addEventListener('click', function() {
+        choose = snack.value;
+        console.log(choose)
+        axios.get(url + choose)
+          .then((response) => {
+            console.log(response.data);
+            this.Foods = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }) 
+    },
+    dessert() {
+      const dessert = document.getElementById("dessert");
+      dessert.addEventListener('click', function() {
+        choose = dessert.value;
+        console.log(choose)
+        axios.get(url + choose)
+          .then((response) => {
+            console.log(response.data);
+            this.Foods = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+    },
+    drink() {
+      const drink = document.getElementById("drink");
+      drink.addEventListener('click', function() {
+        choose = drink.value;
+        console.log(choose)
+        axios.get(url + choose)
+          .then((response) => {
+            console.log(response.data);
+            this.Foods = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+    }
+  },
+  mounted(){
+    axios.get(URL)
+      .then((response) => {
+        console.log(response.data);
+        this.Foods = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    this.meal()
+    this.snack()
+    this.dessert()
+    this.drink()
+  }
 }
 </script>
 
@@ -69,12 +175,12 @@ export default {
   color: black;
   background: #FAFAFA;
   Height: 87.5vh;
-  Width: 18vh;
+  Width: 20vh;
   justify-content: center;
 }
 
 #content{
-　font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
   font-size: 24px;
   text-align: center;
   -webkit-font-smoothing: antialiased;
@@ -100,7 +206,6 @@ export default {
   font-size: 24px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: white;
   background: #9471DC;
   border-radius:5px;
   border: none;
@@ -108,10 +213,7 @@ export default {
   height: 46px;  
   margin: 20px 60px;
   float: left;
-}
-::placeholder {
-  color: white;
-  opacity: 0.6;
+  display: block;
 }
 
 .checkDiv {
@@ -133,6 +235,10 @@ export default {
   height: 50px;
   background: #5029AA;
   border-style: none;
+}
+
+table{
+  border: 1px solid black;
 }
 
 </style>

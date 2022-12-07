@@ -1,0 +1,20 @@
+[
+    {
+        "_id": "637eab8f58712097007074e9",
+        "foodName": "Bacon Cheddar Potato",
+        "price": 12.99,
+        "description": "These easy and delicious Bacon Cheddar Potatoes are seasoned perfectly and topped with shredded cheddar cheese and crispy bacon.",
+        "category": "Meal",
+        "imageLink": "https://snz04pap001files.storage.live.com/y4m8-rvsZh1dTNXrDmCPPeCTWSwJD4fheevfmO5DahAu7W_-7RrQiDOYurpz4QYMe1Bjp-1oFQUenS2cRqDqqVk5gwD4h01gg7TRT8KGznJTQQvdDpQLW_MJII0fTK-4acwOcv0yaq4kkJuc-HaMeyC__Z19SerBuYjrHXsVgHts57iDNEiaFopGZkaFDNkyANu?width=1200&height=1200&cropmode=none",
+        "recommended": true
+    },
+    {
+        "_id": "637eade758712097007074ea",
+        "foodName": "Karaage Chicken",
+        "price": 8.99,
+        "description": "Karaage is a Japanese cooking technique in which various foods—most often chicken, but also other meat and fish—are deep fried in oil.",
+        "category": "Meal",
+        "imageLink": "https://snz04pap001files.storage.live.com/y4m2PMlSq5y_QQ_SNnzBUMLQTmM-KO0jyVYdTA2Uk96F-zp6tiPoJ8jXziK_RU3kNK3TAwdycTtqzr6xDLyxUk4kgItZQCT7qUiErKPB6lWAV70VCZ92yXTGOh0MjoOMecF2nGiVxNLX2K2P-lluiu2ING_HyfO61XjOH1mCpsMfEiFYPf1AY7uMaasFKZbrD0R?width=799&height=799&cropmode=none",
+        "recommended": true
+    }
+]

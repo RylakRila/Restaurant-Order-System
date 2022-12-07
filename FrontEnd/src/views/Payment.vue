@@ -4,7 +4,7 @@
       <div id = card>
         <h3 style="margin: 30px; font-weight: bold; text-align: center;">Total: $</h3>
 
-        <img src="@/assets/images/creditcardlogo.png"></img>
+        <img src="@/assets/images/creditcardlogo.png"/>
 
         <input type="text" class="inputName" placeholder="Card Holder Name"/>
         <input type="text" class="inputNumber" placeholder="Cord Number"/>
@@ -85,7 +85,7 @@ export default {
 }
 
 ::placeholder {
-  color: grey;
+  color: black;
   opacity: 0.6;
 }
 
