@@ -2,10 +2,10 @@
   <div id="food">
     <div id="title">Foods</div>
 　  <div id="sidebar_left">
-      <button class="menuBtn" id="meal" value="meals">Meal</button>
-      <button class="menuBtn" id="snack" value="snacks">Snack</button>
-      <button class="menuBtn" id="dessert" value="desserts">Dessert</button>
-      <button class="menuBtn" id="drink" value="drinks">Drink</button>
+      <button class="menuBtn" id="meal" value="meals" @click="meal">Meal</button>
+      <button class="menuBtn" id="snack" value="snacks" @click="snack">Snack</button>
+      <button class="menuBtn" id="dessert" value="desserts" @click="dessert">Dessert</button>
+      <button class="menuBtn" id="drink" value="drinks" @click="drink">Drink</button>
 </div>
 
     <div id="sidebar_right">Shopping Cart
@@ -28,12 +28,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="food in Foods" :key="food.id">
+          <tr v-for="food in Foods" :key="food.foodName">
             <td>{{ food.foodName}}</td>
             <td>{{ food.price}}</td>
             <td>
               <img v-bind:src="food.imageLink" width="100" height="100"/>
-             </td>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -59,22 +59,19 @@ export default {
     meal() {
       const meal = document.getElementById("meal");
       //console.log(meal.value)
-      meal.addEventListener('click', function() {
-        choose = meal.value;
-        console.log(choose)
-        axios.get(url + choose)
-          .then((response) => {
+      choose = meal.value;
+      console.log(choose)
+      axios.get(url + choose)
+        .then((response) => {
           console.log(response.data);
-          this.Foods = response.data;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
+          this.Foods = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     snack() {
       const snack = document.getElementById("snack");
-      snack.addEventListener('click', function() {
         choose = snack.value;
         console.log(choose)
         axios.get(url + choose)
@@ -85,11 +82,9 @@ export default {
           .catch((error) => {
             console.log(error);
           });
-      }) 
     },
     dessert() {
       const dessert = document.getElementById("dessert");
-      dessert.addEventListener('click', function() {
         choose = dessert.value;
         console.log(choose)
         axios.get(url + choose)
@@ -100,11 +95,9 @@ export default {
           .catch((error) => {
             console.log(error);
           });
-      })
     },
     drink() {
       const drink = document.getElementById("drink");
-      drink.addEventListener('click', function() {
         choose = drink.value;
         console.log(choose)
         axios.get(url + choose)
@@ -115,10 +108,11 @@ export default {
           .catch((error) => {
             console.log(error);
           });
-      })
     }
   },
   mounted(){
+    /*
+    // Test uses
     axios.get(URL)
       .then((response) => {
         console.log(response.data);
@@ -127,10 +121,7 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-    this.meal()
-    this.snack()
-    this.dessert()
-    this.drink()
+      */
   }
 }
 </script>
