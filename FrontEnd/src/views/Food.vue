@@ -22,17 +22,21 @@
       <table style="width: 100%">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Image</th>
+            <th style="width:35%">Name</th>
+            <th style="width:25%">Price</th>
+            <th style="width:25%">Image</th>
+            <th style="width:15%"></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="food in Foods" :key="food.foodName">
-            <td>{{ food.foodName}}</td>
-            <td>{{ food.price}}</td>
-            <td>
+            <td style="width:35%">{{ food.foodName }}</td>
+            <td style="width: 25%; margin-left: 100px;">{{ food.price }}</td>
+            <td style="width:25%">
               <img v-bind:src="food.imageLink" width="100" height="100"/>
+            </td>
+            <td style="width:15%">
+              <button>Add</button>
             </td>
           </tr>
         </tbody>
