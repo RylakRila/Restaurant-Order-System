@@ -35,7 +35,7 @@ export class FoodController {
         @Body('title') foodName: string,
         @Body('price') price: number,
         @Body('description') description: string,
-        @Body('category') category: string,
+        @Body('category') category: "Meal" | "Drink" | "Dessert" | "Snack",
         @Body('image') imageLink: string,
         @Body('recommended') recommended: boolean
     ) {

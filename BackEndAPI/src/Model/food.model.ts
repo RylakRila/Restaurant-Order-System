@@ -4,7 +4,10 @@ export const FoodSchema = new Schema({
     foodName: String,
     price: Number,
     description: String,
-    category: String,
+    category: {
+        type: String,
+        enum: ['Meal', 'Drink', 'Dessert', 'Snack']
+    },
     imageLink: String,
     recommended: Boolean
 }, {
@@ -16,7 +19,7 @@ export interface Food {
     foodName: string;
     price: number;
     description: string;
-    category: string;
+    category: "Meal" | "Drink" | "Dessert" | "Snack";
     imageLink: string;
     recommended: boolean;
 }

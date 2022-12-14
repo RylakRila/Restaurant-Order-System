@@ -15,7 +15,7 @@ export class FoodService {
         foodName: string,
         price: number,
         description: string,
-        category: string,
+        category: "Meal" | "Drink" | "Dessert" | "Snack",
         imageLink: string,
         recommended: boolean
     ) {
