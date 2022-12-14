@@ -62,4 +62,13 @@ export class OrderService {
         const idWithNumber = await this.orderModel.findById(orderId).select('queue.queueNumber');
         return idWithNumber;
     }
+    
+    async deleteOrder(orderId: string) {
+        const order = await this.orderModel.findById(orderId);
+        await Promise.all(order.items.map(async item => {
+            await this.orderItemService.deleteOrderItem(item);
+        }));
+        
+        return await this.orderModel.deleteOne({ _id: orderId }).exec();
+    }
 }
