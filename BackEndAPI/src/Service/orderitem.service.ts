@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 
 import { OrderItem } from "src/Model/orderitem.model";
 
@@ -12,7 +12,7 @@ export class OrderItemService {
     ) {}
     
     async addOrderItem(
-        foodId: string,
+        foodId: Types.ObjectId,
         quantity: number
     ) {
         const newOrderItem = new this.orderItemModel({

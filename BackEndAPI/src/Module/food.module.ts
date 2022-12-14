@@ -11,5 +11,6 @@ import { FoodService } from 'src/Service/food.service';
     ],
     controllers: [FoodController],
     providers: [FoodService],
+    exports: [FoodService]
 })
 export class FoodModule {}

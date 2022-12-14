@@ -51,4 +51,8 @@ export class FoodService {
         const snackFoods = await this.foodModel.find({category: 'Snack'}).exec();
         return snackFoods as Food[];
     }
+    
+    async getFoodPrice(foodId: string) {
+        return (await this.foodModel.findById(foodId).exec()).price
+    }
 }
