@@ -7,7 +7,7 @@ export class AppController {
 
   @Get()
   async getRecommended() {
-    const recommended = await this.appService.getRecommeneded();
-    return recommended;
+    const result = await this.appService.getRecommeneds();
+    return result;
   }
 }

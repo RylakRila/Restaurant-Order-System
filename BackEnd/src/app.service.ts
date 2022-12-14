@@ -1,17 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from "mongoose";
+import { Injectable, Inject } from '@nestjs/common';
 
-import { Food } from "./Model/Food.Model";
+import { FoodService } from './Service/food.service';
+
 @Injectable()
 export class AppService {
   constructor(
-    @InjectModel('Food') private readonly foodModel: Model<Food>
+    @Inject(FoodService)
+    private readonly foodService: FoodService
   ) {}
   
-  async getRecommeneded() {
-    const recommended = await this.foodModel.find({recommended: true}).exec();
+  async getRecommeneds() {
+    const recommends = await this.foodService.getRecommendedFood();
     
-    return recommended as Food[];
+    return recommends;
   }
 }
