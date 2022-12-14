@@ -51,4 +51,15 @@ export class OrderService {
         
         return await newOrder.save();
     }
+    
+    async finishesOrder(orderId: string) {
+        const order = await this.orderModel.findById(orderId);
+        order.finished = true;
+        return await order.save();
+    }
+    
+    async getQueueNumberById(orderId: string) {
+        const idWithNumber = await this.orderModel.findById(orderId).select('queue.queueNumber');
+        return idWithNumber;
+    }
 }
