@@ -18,7 +18,7 @@ export class OrderItemService {
         const newOrderItem = new this.orderItemModel({
             foodId,
             quantity
-        })
+        });
         
         const result = await newOrderItem.save();
         return result;
