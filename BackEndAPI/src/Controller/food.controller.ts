@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
+import { Delete, Param, Put } from "@nestjs/common/decorators";
 
 import { FoodService } from "src/Service/food.service";
 
@@ -47,6 +48,26 @@ export class FoodController {
             imageLink,
             recommended
         );
+        return result;
+    }
+    
+    @Put('edit/:foodId')
+    async editMenuFood(
+        @Param('foodId') foodId: string,
+        @Body('title') foodName: string,
+        @Body('price') price: number,
+        @Body('description') description: string,
+        @Body('category') category: "Meal" | "Drink" | "Dessert" | "Snack",
+        @Body('image') imageLink: string,
+        @Body('recommended') recommended: boolean
+    ) {
+        const result = await this.foodService.editMenuFood(foodId, foodName, price, description, category, imageLink, recommended);
+        return result;
+    }
+    
+    @Delete('delete/:foodId')
+    async deleteMenuFood(@Param('foodId') foodId: string) {
+        const result = await this.foodService.deleteMenuFood(foodId);
         return result;
     }
 }

@@ -26,7 +26,7 @@ export class FoodService {
             category,
             imageLink,
             recommended
-        })
+        });
         
         const result = await newFood.save();
         return result;
@@ -54,5 +54,37 @@ export class FoodService {
     
     async getFoodPrice(foodId: string) {
         return (await this.foodModel.findById(foodId).exec()).price
+    }
+    
+    async editMenuFood(
+        foodId: string,
+        foodName: string,
+        price: number,
+        description: string,
+        category: "Meal" | "Drink" | "Dessert" | "Snack",
+        imageLink: string,
+        recommended: boolean
+    ) {
+        const result = await this.foodModel.updateOne(
+            { _id: foodId },
+            {
+                $set: {
+                    foodName,
+                    price,
+                    description,
+                    category,
+                    imageLink,
+                    recommended
+                }
+            },
+            { runValidators: true }
+        );
+        
+        return result;
+    }
+    
+    async deleteMenuFood(foodId: string) {
+        const result = await this.foodModel.deleteOne({ _id: foodId });
+        return result;
     }
 }
