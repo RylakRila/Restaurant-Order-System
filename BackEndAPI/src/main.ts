@@ -10,8 +10,8 @@ async function bootstrap() {
   * @https://docs.nestjs.com/security/cors
   */ 
   app.enableCors();
-  
   app.setGlobalPrefix('api');
+  
   await app.listen(port);
 }
 bootstrap();
