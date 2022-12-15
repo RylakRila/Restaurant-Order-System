@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Request } from "@nestjs/common";
+import { Head, Req } from "@nestjs/common/decorators";
 
 import { OrderService } from "src/order/order.service";
 
@@ -8,10 +9,12 @@ export class OrderController {
     
     @Post('add')
     async placeOrder(
+        @Req() req: Request,
         @Body('items') items: {foodId: string, quantity: number}[],
         @Body('queueType') queueType: 'TakeOut' | 'DineIn',
     ) {
-        const result = await this.orderService.placeOrder(items, queueType);
+        const jwtWebToken = req.headers.get('Authorization');
+        const result = await this.orderService.placeOrder(items, queueType, jwtWebToken);
         return result;
     }
     

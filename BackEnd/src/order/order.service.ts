@@ -20,6 +20,7 @@ export class OrderService {
     async placeOrder( 
         items: {foodId: string, quantity: number}[],
         queueType: 'TakeOut' | 'DineIn',
+        jwtWebToken: string | null
     ) {
         let orderItems: Types.ObjectId[] = [],
             totalPrice: number = 0.0;

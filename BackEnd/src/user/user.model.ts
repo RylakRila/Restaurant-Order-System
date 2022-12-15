@@ -1,5 +1,4 @@
-import { Callback, Schema } from 'mongoose';
-import * as bcrypt from 'bcryptjs';
+import { Schema } from 'mongoose';
 
 export const UserSchema = new Schema({
     username: {
@@ -16,33 +15,9 @@ export const UserSchema = new Schema({
         default: 'user',
         required: true
     }
+}, {
+    collection: 'users'
 });
-
-// UserSchema.pre('save', function(next) {
-//     const user = this;
-//     if (!user.isModified('password')) return next();
-    
-//     bcrypt.genSalt(10, (error, salt) => {
-//         if (error) return next(error);
-        
-//         bcrypt.hash(user.password, salt, (error, hash) => {
-//             if (error) return next(error);
-            
-//             user.password = hash;
-//             next();
-//         });
-//     });
-// });
-
-// UserSchema.methods.comparePassword = function(password: string, callback: any) {
-//     bcrypt.compare(password, this.password, (error, isMatch) => {
-//         if (error) return callback(error);
-        
-//         if (!isMatch) callback(null, isMatch);
-        
-//         callback(null, this);
-//     });
-// }
 
 export interface User {
     id: string;
