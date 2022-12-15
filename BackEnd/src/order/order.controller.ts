@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Request } from "@nestjs/common";
 
-import { OrderService } from "src/Service/order.service";
+import { OrderService } from "src/order/order.service";
 
 @Controller('order')
 export class OrderController {

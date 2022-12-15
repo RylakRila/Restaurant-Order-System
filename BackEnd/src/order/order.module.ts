@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { OrderSchema } from 'src/Model/order.model';
-import { OrderService } from 'src/Service/order.service';
+import { OrderSchema } from 'src/order/order.model';
+import { OrderService } from 'src/order/order.service';
 
-import { OrderItemModule } from './orderitem.module';
-import { OrderController } from 'src/Controller/order.controller';
-import { FoodModule } from './food.module';
+import { OrderItemModule } from '../orderitem/orderitem.module';
+import { OrderController } from 'src/order/order.controller';
+import { FoodModule } from '../food/food.module';
 
 @Module({
     imports: [

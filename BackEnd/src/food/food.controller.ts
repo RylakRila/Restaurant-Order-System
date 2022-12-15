@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
 import { Delete, Param, Put } from "@nestjs/common/decorators";
 
-import { FoodService } from "src/Service/food.service";
+import { FoodService } from "src/food/food.service";
 
 @Controller('food')
 export class FoodController {
