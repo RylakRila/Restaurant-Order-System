@@ -28,4 +28,9 @@ export class OrderItemService {
         const result = await this.orderItemModel.deleteOne({ _id: orderItemId }).exec();
         return result;
     }
+    
+    async deleteOrderItemByOrderId(orderId: string) {
+        const result = await this.orderItemModel.deleteMany({ orderId: orderId }).exec();
+        return result;
+    }
 }

@@ -17,13 +17,12 @@ export class OrderService {
         private readonly foodService: FoodService,
     ) {}
     
-    async addOrder( 
+    async placeOrder( 
         items: {foodId: string, quantity: number}[],
         queueType: 'TakeOut' | 'DineIn',
     ) {
         let orderItems: Types.ObjectId[] = [],
-            totalPrice: number = 0.0,
-            queueNumber: number;
+            totalPrice: number = 0.0;
         
         await Promise.all(items.map(async item => {
             const orderItem = 
@@ -37,19 +36,33 @@ export class OrderService {
             totalPrice += price;
         }));
         
-        queueNumber = await this.orderModel.countDocuments({"queue.queueType": queueType, finished: false});
-        
         const newOrder = new this.orderModel({
             items: orderItems,
             totalPrice: totalPrice,
             queue: {
                 queueType: queueType,
-                queueNumber: queueNumber + 1
+                queueNumber: undefined
             },
             finished: false
         });
         
-        return await newOrder.save();
+        return newOrder;
+    }
+    
+    async saveOrder(orderInfo: object) {
+        const order = new this.orderModel(orderInfo);
+        
+        // get the number in take out or dine in queue
+        order.queue.queueNumber  = (await this.orderModel.countDocuments({"queue.queueType": order.queue.queueType, finished: false})) + 1;
+        
+        return await order.save();
+    }
+    
+    async cancelOrder(orderInfo: object) {
+        const order = new this.orderModel(orderInfo);
+        return await Promise.all(order.items.map(async itemId => {
+            return await this.orderItemService.deleteOrderItem(itemId);
+        }));
     }
     
     async finishesOrder(orderId: string) {
@@ -58,7 +71,7 @@ export class OrderService {
         return await order.save();
     }
     
-    async getQueueNumberById(orderId: string) {
+    async getQueueNumberById(orderId: string | Types.ObjectId) {
         const idWithNumber = await this.orderModel.findById(orderId).select('queue.queueNumber');
         return idWithNumber;
     }
