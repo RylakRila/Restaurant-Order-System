@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 
 import { NewUser } from 'src/user/dto/new-user.dto';
 import { ExistingUser } from 'src/user/dto/existing-user.dto';

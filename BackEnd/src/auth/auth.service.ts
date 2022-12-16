@@ -54,6 +54,8 @@ export class AuthService {
         if (!user) return { error: "Invalid credentials" };
         
         const jwt = await this.jwtService.signAsync({ user });
-        return { token: jwt };
+        
+        const expireTime = new Date().getTime() + (60 * 60 * 1000);
+        return { token: jwt, expiresIn: expireTime };
     }
 }

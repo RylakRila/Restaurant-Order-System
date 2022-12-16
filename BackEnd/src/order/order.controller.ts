@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Request } from "@nestjs/common";
-import { Head, Req } from "@nestjs/common/decorators";
+import { Headers, UseGuards } from "@nestjs/common/decorators";
+import { JwtAuthGuard } from "src/auth/guard/jwt.guard";
 
 import { OrderService } from "src/order/order.service";
 
@@ -9,11 +10,12 @@ export class OrderController {
     
     @Post('add')
     async placeOrder(
-        @Req() req: Request,
+        @Headers() headers: Headers,
         @Body('items') items: {foodId: string, quantity: number}[],
         @Body('queueType') queueType: 'TakeOut' | 'DineIn',
     ) {
-        const jwtWebToken = req.headers.get('Authorization');
+        let jwtWebToken: string | null;
+        if (headers['authorization']) jwtWebToken = headers['authorization'].split(' ')[1];
         const result = await this.orderService.placeOrder(items, queueType, jwtWebToken);
         return result;
     }
@@ -22,7 +24,11 @@ export class OrderController {
     async saveOrder(
         @Request() req: Request,
     ) {
-        const result = await this.orderService.saveOrder(req.body);
+        const result = await this.orderService.saveOrder(req.body)
+            .catch(err => {
+                console.error(err);
+                return err;
+            });
         return await this.orderService.getQueueNumberById(result._id);
     }
     
@@ -40,6 +46,17 @@ export class OrderController {
         orderId: string
     ) {
         const result = await this.orderService.finishesOrder(orderId);
+        return result;
+    }
+    
+    @Get()
+    @UseGuards(JwtAuthGuard)
+    async getOrders(
+        @Headers() headers: Headers
+    ) {
+        let jwtWebToken: string | null;
+        if (headers['authorization']) jwtWebToken = headers['authorization'].split(' ')[1];
+        const result = await this.orderService.getOrders(jwtWebToken);
         return result;
     }
     
