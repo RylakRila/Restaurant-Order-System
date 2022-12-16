@@ -9,11 +9,31 @@
 </div>
 
     <div id="sidebar_right">Shopping Cart
+      <table style="width: 100%">
+        <thead>
+          <tr>
+            <th style="width:35%; text-align: left; font-size: 16px;">Name</th>
+            <th style="width:25%; text-align: left; font-size: 16px;">Price</th>
+            <th style="width:25%; text-align: left; font-size: 16px;">Quantity</th>
+            <th style="width:15%; text-align: left;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="food in Cart" :key="food.foodName">
+            <th style="width:35%; font-size:12px; margin:0; text-align:left;">{{ food.foodName }}</th>
+            <th style="width:25%; font-size:12px; text-align:left;">{{ food.price }}</th>
+            <th style="width:25%; font-size:12px; text-align:left;" >{{ food.quantity }}</th>
+            <td style="width:15%">
+              <button id="addFoods" @click="removeFood(food)" style="font-size:12px">Remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <div class="checkDiv">
-        <p>Total: $</p>
+        <p>Total: ${{countTotal}}</p>
         <router-link :to="{name: 'Confirm'}">
           <button class="checkBtn">Check Out</button>
-        </router-link>  
+        </router-link>
       </div>
     </div>
 　  
@@ -22,21 +42,21 @@
       <table style="width: 100%">
         <thead>
           <tr>
-            <th style="width:35%">Name</th>
-            <th style="width:25%">Price</th>
+            <th style="width:40%">Name</th>
+            <th style="width:20%">Price</th>
             <th style="width:25%">Image</th>
             <th style="width:15%"></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="t">
           <tr v-for="food in Foods" :key="food.foodName">
-            <td style="width:35%">{{ food.foodName }}</td>
-            <td style="width: 25%; margin-left: 100px;">{{ food.price }}</td>
-            <td style="width:25%">
+            <th style="width:40%">{{ food.foodName }}</th>
+            <th style="width:20%;">{{ food.price }}</th>
+            <th style="width:25%">
               <img v-bind:src="food.imageLink" width="100" height="100"/>
-            </td>
+            </th>
             <td style="width:15%">
-              <button>Add</button>
+              <button id="addFoods" @click="addFood(food)">Add</button>
             </td>
           </tr>
         </tbody>
@@ -46,17 +66,18 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 const url = 'http://localhost:3000/api/food/';
 let choose;
 
-const URL = '/testData.json';
+// const URL = '/testData.json';
 export default {
   name: 'FoodPage',
   data() {
     return {
       Foods: [],
+      AddFoods: [],
+      Cart: [],
     }
   },
   methods: {
@@ -64,21 +85,21 @@ export default {
       const meal = document.getElementById("meal");
       //console.log(meal.value)
       choose = meal.value;
-      console.log(choose)
-      axios.get(url + choose)
+      // console.log(choose)
+      this.$axios.get(url + choose)
         .then((response) => {
           console.log(response.data);
           this.Foods = response.data
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     },
     snack() {
       const snack = document.getElementById("snack");
         choose = snack.value;
         console.log(choose)
-        axios.get(url + choose)
+        this.$axios.get(url + choose)
           .then((response) => {
             console.log(response.data);
             this.Foods = response.data;
@@ -91,7 +112,7 @@ export default {
       const dessert = document.getElementById("dessert");
         choose = dessert.value;
         console.log(choose)
-        axios.get(url + choose)
+        this.$axios.get(url + choose)
           .then((response) => {
             console.log(response.data);
             this.Foods = response.data;
@@ -104,7 +125,7 @@ export default {
       const drink = document.getElementById("drink");
         choose = drink.value;
         console.log(choose)
-        axios.get(url + choose)
+        this.$axios.get(url + choose)
           .then((response) => {
             console.log(response.data);
             this.Foods = response.data;
@@ -112,6 +133,58 @@ export default {
           .catch((error) => {
             console.log(error);
           });
+    },
+    addFood(food) {
+      //let postUrl = 'http://localhost:3000/api/order/add';
+      this.AddFoods = {
+        _id: food._id,
+        foodName: food.foodName,
+        price: food.price,
+        quantity: 1
+      }
+
+      if(this.Cart.length == 0){
+        this.Cart.push(this.AddFoods)
+      }
+      else {
+        for(let i = 0; i < this.Cart.length; i++) {
+          if(this.Cart[i]._id === food._id) {
+            this.Cart[i].quantity ++;
+          }
+        }
+      }
+      if(!this.Cart.some(f => f._id === this.AddFoods._id)) {
+        this.Cart.push(this.AddFoods)
+      }
+
+      // console.log(this.AddFoods)
+      // console.log(this.Cart)
+    },
+    removeFood(food) {
+      let remove = {
+        _id: food._id,
+      }
+
+      for(let i = 0; i < this.Cart.length; i++) {
+        if(this.Cart[i]._id === remove._id && this.Cart[i].quantity > 1){
+          this.Cart[i].quantity --;
+        }
+        else if(this.Cart[i]._id === remove._id && this.Cart[i].quantity === 1){
+          const itemRemove = this.Cart.findIndex(food => this.Cart[i]._id === food._id);
+          this.Cart.splice(itemRemove, 1);
+        }
+      }
+
+      // console.log(this.Cart)
+    }
+  },
+  computed:{
+    countTotal:function(){
+      let countTotal = 0;
+      for(let i in this.Cart){
+        countTotal += parseFloat(this.Cart[i].quantity * this.Cart[i].price);
+      }
+      return countTotal;
     }
   },
   mounted(){
@@ -170,7 +243,7 @@ export default {
   color: black;
   background: #FAFAFA;
   Height: 87.5vh;
-  Width: 20vh;
+  Width: 40vh;
   justify-content: center;
 }
 
@@ -182,8 +255,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: black;
   Height: 87.5vh;
-  margin-left: 20vh;
-  margin-right: 20vh;
+  margin-left: 21vh;
+  margin-right: 41vh;
 }
 
 .menuBtn {
@@ -212,11 +285,11 @@ export default {
 }
 
 .checkDiv {
-  display: inline-block;
-  width: 150px;
+  width: 40vh;
   height: 120px;
   border: 2px #5029AA solid;
-  margin-top: 70vh;
+  position: relative;
+  bottom: 0px;
 }
 
 .checkBtn {
@@ -235,5 +308,4 @@ export default {
 table{
   border: 1px solid black;
 }
-
 </style>
