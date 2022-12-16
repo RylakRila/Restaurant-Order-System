@@ -1,73 +1,286 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Introduction
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Back-End API based on NestJS. Global prefix: `/api`
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Consists of 3 Types of API: 
 
-## Description
+- Auth
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Food
 
-## Installation
+- Order
 
-```bash
-$ npm install
-```
+The following content will based on the structure of these types. 
 
-## Running the app
+# Root Endpoint
 
-```bash
-# development
-$ npm run start
+## /api (GET)
 
-# watch mode
-$ npm run start:dev
+This end point returns all the foods object, with `recommended` field set to `true` , from the database. 
 
-# production mode
-$ npm run start:prod
-```
+### Example
 
-## Test
+![](README/api.png)
 
-```bash
-# unit tests
-$ npm run test
+# Auth Endpoints
 
-# e2e tests
-$ npm run test:e2e
+All the API endpoints related to Authentication feature. 
 
-# test coverage
-$ npm run test:cov
-```
+Using `JsonWebToken` strategy. `bcryptjs` as hashing library. 
 
-## Support
+## /api/register (POST)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- **Description**
+  
+  Register a user, hash the password, and save the user information in the database. 
 
-## Stay in touch
+- 
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+| Field    | Type              |
+| -------- | ----------------- |
+| username | String            |
+| password | String            |
+| role     | "admin" \| "user" |
 
-## License
+- **Response Body**
 
-Nest is [MIT licensed](LICENSE).
+| Field    | Type              |
+| -------- | ----------------- |
+| id       | String            |
+| username | String            |
+| role     | "admin" \| "user" |
+
+> "admin" role has full privilegdes to access any endpoints, 
+> 
+> "user" role can have access the order list with its `Id` attached,
+> 
+> and can create order document with its `id` attached
+
+### Example
+
+![](README/api.register.png)
+
+## /api/login (POST)
+
+- **Description**
+  
+  Signs a user in, and returns
+  
+  - **jsonWebToken**
+  
+  - **expireTime** for the token.
+
+- **Request Body Format (JSON)**
+
+| Field    | Type   |
+| -------- | ------ |
+| username | String |
+| password | String |
+
+- **Response Body (JSON)**
+
+| Field     | Type               |
+| --------- | ------------------ |
+| token     | String             |
+| expiresIn | String (TimeStamp) |
+
+### Example
+
+![](README/api.login.png)
+
+## JWT explaination
+
+A token that
+
+- verifies whether the user has logged in
+
+- access some **authorization-required** API endpoints
+
+- should be included in the **request headers**
+
+- contains an expire time (8 hours for this App)
+
+- should log user out when expires
+
+> For front-end, you can stores token and expire time in `cookie` or `localStorage`. Once the token expires, remove them from that storage, and redirect user to login page.
+
+- the payload contains `id`, `username`, and `role` information of the user
+
+- can decode token with `verify` and `decode` method in `jwt` library
+
+- can also decode in [JSON Web Tokens - jwt.io](https://jwt.io/)
+
+### Example
+
+![](README/jwt.png)
+
+# Order Endpoints
+
+## /api/order/add (POST)
+
+- **Description**
+
+Temporarily generates an order document, and return it.
+
+Write the orderItem documents in the order to the database'
+
+> The order document will not be written to database at this point
+
+- **Request Body Format (JSON)**
+
+| Field      | Type                                   | Description                             |
+| ---------- | -------------------------------------- | --------------------------------------- |
+| items      | { foodId: String, quantity: Number }[] | array of order items                    |
+| items.item | { foodId: String, quantity: Number }   | items in the array                      |
+| queueType  | "TakeOut" \| "DineIn"                  | type of order: <br> Take Out or Dine In |
+
+- **Response Body Format (JSON)**
+
+An order document, only without `queueNumber` field for the `queue` object.
+
+| Field           | Type                  | Description                                                                                |
+| --------------- | --------------------- | ------------------------------------------------------------------------------------------ |
+| items           | String[]              | array of order item's id                                                                   |
+| orderDate       | Date                  | MongoDB will always store date in UTC time                                                 |
+| userId          | String                | **optional**. If headers contain jwt, then order will attach user id in the order document |
+| totalPrice      | Number                | Total price of all the order item with price times quantity                                |
+| queue           | object                | object describing the order in queue                                                       |
+| queue.queueType | "TakeOut" \| "DineIn" | Type of Order in queue                                                                     |
+| finished        | boolean               | indicate the order has been completed                                                      |
+| _id             | String                | id in the database                                                                         |
+
+### Example
+
+![](README/api.order.add.png)
+
+## /api/order/add/save (POST)
+
+- **Description**
+
+Save the order document in the database. Usually after the order is confirmed.
+
+- **Request Body Format (JSON)**
+
+An order document, only without `queueNumber` field for the `queue` object.
+
+> Can just use the document returned by `api/order/add`
+
+| Field           | Type                  | Description                                                                                |
+| --------------- | --------------------- | ------------------------------------------------------------------------------------------ |
+| items           | String[]              | array of order item's id                                                                   |
+| orderDate       | Date                  | MongoDB will always store date in UTC time                                                 |
+| userId          | String                | **optional**. If headers contain jwt, then order will attach user id in the order document |
+| totalPrice      | Number                | Total price of all the order item with price times quantity                                |
+| queue           | object                | object describing the order in queue                                                       |
+| queue.queueType | "TakeOut" \| "DineIn" | Type of Order in queue                                                                     |
+| finished        | boolean               | indicate the order has been completed                                                      |
+| _id             | String                | id in the database                                                                         |
+
+- **Response Body Format (JSON)**
+
+| Field             | Type                  | Description                          |
+| ----------------- | --------------------- | ------------------------------------ |
+| queue             | Object                | object describing the order in queue |
+| queue.queueType   | "TakeOut" \| "DineIn" | Type of Order in queue               |
+| queue.queueNumber | Number                | The number of Order in queue         |
+| id                | String                | order id in database                 |
+
+### Example
+
+![](README/api.order.add.save.png)
+
+## /api/order/cancel (DELETE)
+
+- **Description**
+
+Delete the order items written to the database when access to `api/order/add`. 
+
+Usually send the request after user cancel the order in confirmation page. 
+
+- **Request Body Format (JSON)**
+
+An order document, only without `queueNumber` field for the `queue` object.
+
+> Can just use the document returned by `api/order/add`
+
+| Field           | Type                  | Description                                                                                |
+| --------------- | --------------------- | ------------------------------------------------------------------------------------------ |
+| items           | String[]              | array of order item's id                                                                   |
+| orderDate       | Date                  | MongoDB will always store date in UTC time                                                 |
+| userId          | String                | **optional**. If headers contain jwt, then order will attach user id in the order document |
+| totalPrice      | Number                | Total price of all the order item with price times quantity                                |
+| queue           | object                | object describing the order in queue                                                       |
+| queue.queueType | "TakeOut" \| "DineIn" | Type of Order in queue                                                                     |
+| finished        | boolean               | indicate the order has been completed                                                      |
+| _id             | String                | id in the database                                                                         |
+
+- **Response Body Format (JSON)**
+
+The MongoDB information indicates the data in the database in successfully deleted
+
+### Example
+
+![](README/api.order.cancel.png)
+
+## /api/order/{orderId}/number (GET)
+
+- **Description**
+
+{orderId} is a parameter, replace it with actual ID of an order. 
+
+returns the queue object along with the order id it ask with.
+
+Performs as same as `/api/order/add/save`
+
+- **Request Body Format (Not Body)**
+
+- **Response Body Format (JSON)**
+
+| Field             | Type                  | Description                          |
+| ----------------- | --------------------- | ------------------------------------ |
+| queue             | Object                | object describing the order in queue |
+| queue.queueType   | "TakeOut" \| "DineIn" | Type of Order in queue               |
+| queue.queueNumber | Number                | The number of Order in queue         |
+| id                | String                | order id in database                 |
+
+### Example
+
+![](README/api.order.{orderid}.number.png)
+
+## /api/order/all (GET) (Guarded)
+
+- **Description**
+
+return a list of all order, if the user role is "admin",
+
+return a list of all orde that has the id of that user, if the user role is "user",
+
+`401 Unauthorized` if jwt has not given in the request headers. 
+
+- **Request Body Format (No Body)**
+
+- **Response Body Format (JSON)**
+
+A list of order documents. 
+
+### Example
+
+![](README/api.order.all.png)
+
+# Food Endpoints
+
+## /api/food/meals|desserts|drinks|snacks (GET)
+
+- **Description**
+
+return a list of food in one of the categories (meals, desserts, drinks, snacks)
+
+- **Request Body Format (No Body)**
+
+- **Response Body Format (JSON)**
+
+A list of food documents.
+
+### Example
+
+![](README/api.food.{foodCategory}.png)

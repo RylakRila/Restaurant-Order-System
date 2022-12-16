@@ -53,7 +53,7 @@ export class OrderService {
         const newOrder = new this.orderModel({
             items: orderItems,
             totalPrice: totalPrice.toNumber(),
-            userId: user,
+            userId:(user && user.role === "user") ? user.id: undefined,
             queue: {
                 queueType: queueType,
                 queueNumber: undefined
