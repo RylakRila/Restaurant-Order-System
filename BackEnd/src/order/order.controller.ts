@@ -19,7 +19,11 @@ export class OrderController {
         @Body('queueType') queueType: 'TakeOut' | 'DineIn',
     ) {
         const user = this.authService.getUserByToken(headers['authorization']);
-        const result = await this.orderService.placeOrder(items, queueType, user);
+        const result = await this.orderService.placeOrder(items, queueType, user)
+            .catch(err => {
+                console.error(err);
+                return err;
+            });
         return result;
     }
     
