@@ -3,16 +3,18 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { OrderSchema } from 'src/order/order.model';
 import { OrderService } from 'src/order/order.service';
+import { OrderController } from 'src/order/order.controller';
 
 import { OrderItemModule } from '../orderitem/orderitem.module';
-import { OrderController } from 'src/order/order.controller';
 import { FoodModule } from '../food/food.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
     imports: [
         MongooseModule.forFeature([{name: 'Order', schema: OrderSchema}]),
         OrderItemModule,
-        FoodModule
+        FoodModule,
+        AuthModule
     ],
     controllers: [OrderController],
     providers: [OrderService]

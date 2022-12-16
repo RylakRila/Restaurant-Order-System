@@ -1,10 +1,13 @@
 import { Injectable } from "@nestjs/common";
-import * as bcrypt from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
+import * as bcrypt from "bcryptjs";
+import * as jwt from "jsonwebtoken";
 
 import { NewUser } from "src/user/dto/new-user.dto";
 import { ExistingUser } from "src/user/dto/existing-user.dto";
 import { UserService } from "src/user/user.service";
+import { User } from "src/user/user.model";
+import { json } from "stream/consumers";
 
 
 @Injectable()
@@ -55,7 +58,24 @@ export class AuthService {
         
         const jwt = await this.jwtService.signAsync({ user });
         
-        const expireTime = new Date().getTime() + (60 * 60 * 1000);
+        const expireTime = new Date().getTime() + (8 * 60 * 60 * 1000);
         return { token: jwt, expiresIn: expireTime };
+    }
+    
+    getUserByToken(authorizationHeader: string) {
+        if (!authorizationHeader) return undefined;
+
+        let user: User,
+            jsonWebToken: string = authorizationHeader.split(' ')[1];
+        
+        jwt.verify(jsonWebToken, 'secret', (err, decodedToken) => {
+            if (err) {
+                console.log("has error");
+            } else {
+                user = decodedToken['user'] as User;
+            }
+        });
+        
+        return user;
     }
 }

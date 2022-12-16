@@ -1,12 +1,16 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Request } from "@nestjs/common";
 import { Headers, UseGuards } from "@nestjs/common/decorators";
-import { JwtAuthGuard } from "src/auth/guard/jwt.guard";
 
 import { OrderService } from "src/order/order.service";
+import { AuthService } from "src/auth/auth.service";
+import { JwtAuthGuard } from "src/auth/guard/jwt.guard";
 
 @Controller('order')
 export class OrderController {
-    constructor(private readonly orderService: OrderService) {}
+    constructor(
+        private readonly orderService: OrderService,
+        private readonly authService: AuthService,
+    ) {}
     
     @Post('add')
     async placeOrder(
@@ -14,9 +18,8 @@ export class OrderController {
         @Body('items') items: {foodId: string, quantity: number}[],
         @Body('queueType') queueType: 'TakeOut' | 'DineIn',
     ) {
-        let jwtWebToken: string | null;
-        if (headers['authorization']) jwtWebToken = headers['authorization'].split(' ')[1];
-        const result = await this.orderService.placeOrder(items, queueType, jwtWebToken);
+        const user = this.authService.getUserByToken(headers['authorization']);
+        const result = await this.orderService.placeOrder(items, queueType, user);
         return result;
     }
     
@@ -32,34 +35,6 @@ export class OrderController {
         return await this.orderService.getQueueNumberById(result._id);
     }
     
-    @Delete('cancel')
-    async cancelOrder(
-        @Request() req: Request,
-    ) {
-        const result = await this.orderService.cancelOrder(req.body);
-        return result;
-    }
-    
-    @Put('finish/:orderId')
-    async finishesOrder(
-        @Param('orderId') 
-        orderId: string
-    ) {
-        const result = await this.orderService.finishesOrder(orderId);
-        return result;
-    }
-    
-    @Get()
-    @UseGuards(JwtAuthGuard)
-    async getOrders(
-        @Headers() headers: Headers
-    ) {
-        let jwtWebToken: string | null;
-        if (headers['authorization']) jwtWebToken = headers['authorization'].split(' ')[1];
-        const result = await this.orderService.getOrders(jwtWebToken);
-        return result;
-    }
-    
     @Get(':orderId/number')
     async getQueueNumberById(
         @Param('orderId')
@@ -69,11 +44,48 @@ export class OrderController {
         return result;
     }
     
+    @Delete('cancel')
+    async cancelOrder(
+        @Request() req: Request,
+    ) {
+        const result = await this.orderService.cancelOrder(req.body);
+        return result;
+    }
+    
+    @Put('finish/:orderId')
+    @UseGuards(JwtAuthGuard)
+    async finishesOrder(
+        @Headers() 
+        headers: Headers,
+        @Param('orderId') 
+        orderId: string
+    ) {
+        if (this.authService.getUserByToken(headers['authorization']).role !== "admin")     
+            return {message: 'You are not authorized to finish order'}
+        const result = await this.orderService.finishesOrder(orderId);
+        return { orderId: result._id, message: 'Order finished' };
+    }
+    
+    @Get('all')
+    @UseGuards(JwtAuthGuard)
+    async getOrders(
+        @Headers() headers: Headers
+    ) {
+        const user = this.authService.getUserByToken(headers['authorization']);
+        const result = await this.orderService.getOrders(user);
+        return result;
+    }
+    
     @Delete('delete/:orderId')
+    @UseGuards(JwtAuthGuard)
     async deleteOrder(
+        @Headers() 
+        headers: Headers,
         @Param('orderId')
         orderId: string
     ) {
+        if (this.authService.getUserByToken(headers['authorization']).role !== "admin")     
+            return {message: 'You are not authorized to delete an order'}
         const result = await this.orderService.deleteOrder(orderId);
         return result;
     }

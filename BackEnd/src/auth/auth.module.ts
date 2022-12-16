@@ -14,11 +14,12 @@ import { JwtStrategy } from './guard/jwt.strategy';
             imports: [UserModule],
             useFactory: () => ({
                 secret: 'secret',
-                signOptions: { expiresIn: '3600s' }
+                signOptions: { expiresIn: '8h' }
             })
         })
     ],
     controllers: [AuthController],
     providers: [AuthService, JwtAuthGuard, JwtStrategy],
+    exports: [AuthService]
 })
 export class AuthModule {}

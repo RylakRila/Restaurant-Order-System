@@ -23,7 +23,7 @@ export class OrderService {
     async placeOrder( 
         items: {foodId: string, quantity: number}[],
         queueType: 'TakeOut' | 'DineIn',
-        jwtWebToken: string | null
+        user: User
     ) {
         let orderItems: Types.ObjectId[] = [],
             totalPrice: Decimal = new Decimal(0);
@@ -53,13 +53,7 @@ export class OrderService {
         const newOrder = new this.orderModel({
             items: orderItems,
             totalPrice: totalPrice.toNumber(),
-            userId: jwtWebToken ? jwt.verify(jwtWebToken, 'secret', (err, decodedToken) => {
-                if (err) {
-                    console.error(err);
-                } else {
-                    return decodedToken['user']['id'];
-                }
-            }) : undefined,
+            userId: user,
             queue: {
                 queueType: queueType,
                 queueNumber: undefined
@@ -93,7 +87,7 @@ export class OrderService {
     }
     
     async getQueueNumberById(orderId: string | Types.ObjectId) {
-        const idWithNumber = await this.orderModel.findById(orderId).select('queue.queueNumber');
+        const idWithNumber = await this.orderModel.findById(orderId).select('queue');
         return idWithNumber;
     }
     
@@ -106,18 +100,7 @@ export class OrderService {
         return await this.orderModel.deleteOne({ _id: orderId }).exec();
     }
     
-    async getOrders(jsonwebtoken: string) {
-        let user: User | null;
-        
-        jwt.verify(jsonwebtoken, 'secret', (err, decodedToken) => {
-            if (err) {
-                console.error(err);
-                return null;
-            } else {
-                user = decodedToken['user'];
-            }
-        });
-        
+    async getOrders(user: User) {        
         if (user.role === 'admin') {
             return await this.orderModel.find().exec();
         } else if (user.role === "user") {
