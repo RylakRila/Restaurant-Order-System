@@ -10,6 +10,7 @@ export const OrderSchema = new Schema({
         default: Date.now()
     },
     totalPrice: Number,
+    userId: String,
     queue: {
         queueType: {
             type: String,
@@ -25,6 +26,7 @@ export interface Order {
     items: string[];
     orderDate: Date;
     totalPrice: number;
+    userId: string | undefined;
     queue: {
         queueType: 'TakeOut' | 'DineIn';
         queueNumber: number;

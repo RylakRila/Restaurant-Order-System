@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
-import { Food } from "../Model/Food.Model";
+import { Food } from "./food.model";
 
 @Injectable()
 export class FoodService {

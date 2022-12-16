@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 
-import { FoodService } from './Service/food.service';
+import { FoodService } from './food/food.service';
 
 @Injectable()
 export class AppService {
