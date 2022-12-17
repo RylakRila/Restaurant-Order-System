@@ -34,12 +34,12 @@ Vue.filter('toCurrency', function(value) {
 })
 
 router.beforeEach((to, from, next) => {
-  console.log('to: ', to)
-  console.log('form: ', from)
+  //console.log('to: ', to)
+  //console.log('form: ', from)
 
   if(to.meta.requiresAuth) {
     const check = localStorage.getItem('token')
-    console.log(check === null)
+    //console.log(check === null)
     if(check !== null) {
       next()
     }
