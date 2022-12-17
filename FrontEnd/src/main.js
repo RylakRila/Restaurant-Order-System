@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import qs from 'qs'
-import VueCookies  from 'vue-cookies'
 import { BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 
 Vue.prototype.$axios = axios;
@@ -32,6 +31,27 @@ Vue.filter('toCurrency', function(value) {
     currency: 'CAD'
   });
   return formatter.format(value);
+})
+
+router.beforeEach((to, from, next) => {
+  console.log('to: ', to)
+  console.log('form: ', from)
+
+  if(to.meta.requiresAuth) {
+    const check = localStorage.getItem('token')
+    console.log(check === null)
+    if(check !== null) {
+      next()
+    }
+    else {
+      next({
+        path: '/Login'
+      }) 
+    }
+  }
+  else {
+    next()
+  }
 })
 
 new Vue({

@@ -15,27 +15,42 @@ export default new Router({
         {
             path: '/Home',
             name: 'Home Page',
-            component: Home
+            component: Home,
+            meta: {
+                requiresAuth: true
+              }
         },
         {
             path: '/Foods',
             name: 'Foods',
-            component: Foods
+            component: Foods,
+            meta: {
+                requiresAuth: true
+              }
         },
         {
             path: '/Confirm',
             name: 'Confirm',
-            component: Confirm
+            component: Confirm,
+            meta: {
+                requiresAuth: true
+              }
         },
         {
             path: '/Payment',
             name: 'Payment',
-            component: Payment
+            component: Payment,
+            meta: {
+                requiresAuth: true
+              }
         },
         {
             path: '/Complete',
             name: 'Complete',
-            component: Complete
+            component: Complete,
+            meta: {
+                requiresAuth: true
+              }
         },
         {
             path: '/login',
