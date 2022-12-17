@@ -32,24 +32,9 @@ export class FoodService {
         return result;
     }
     
-    async getMealFood() {
-        const mealFoods = await this.foodModel.find({category: 'Meal'}).exec();
-        return mealFoods as Food[];
-    }
-    
-    async getDessertFood() {
-        const dessertFoods = await this.foodModel.find({category: 'Dessert'}).exec();
-        return dessertFoods as Food[];
-    }
-    
-    async getDrinkFood() {
-        const drinkFoods = await this.foodModel.find({category: 'Drink'}).exec();
-        return drinkFoods as Food[];
-    }
-    
-    async getSnackFood() {
-        const snackFoods = await this.foodModel.find({category: 'Snack'}).exec();
-        return snackFoods as Food[];
+    async getFoodByCategory(category: string) {
+        const foods = await this.foodModel.find({category: category}).exec();
+        return foods;
     }
     
     async getRecommendedFood() {
