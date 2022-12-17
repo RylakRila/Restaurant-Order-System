@@ -30,9 +30,9 @@
         </tbody>
       </table>
       <div class="checkDiv">
-        <p>Total: ${{countTotal}}</p>
-        <router-link :to="{name: 'Confirm'}">
-          <button class="checkBtn">Check Out</button>
+        <p>Total: {{countTotal | toCurrency}}</p>
+        <router-link :to="{name: ''}">
+          <button class="checkBtn" @click="checkOut">Check Out</button>
         </router-link>
       </div>
     </div>
@@ -56,7 +56,7 @@
               <img v-bind:src="food.imageLink" width="100" height="100"/>
             </th>
             <td style="width:15%">
-              <button id="addFoods" @click="addFood(food)">Add</button>
+              <button @click="addFood(food)">Add</button>
             </td>
           </tr>
         </tbody>
@@ -88,7 +88,7 @@ export default {
       // console.log(choose)
       this.$axios.get(url + choose)
         .then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           this.Foods = response.data
         })
         .catch((error) => {
@@ -98,10 +98,10 @@ export default {
     snack() {
       const snack = document.getElementById("snack");
         choose = snack.value;
-        console.log(choose)
+        //console.log(choose)
         this.$axios.get(url + choose)
           .then((response) => {
-            console.log(response.data);
+            //console.log(response.data);
             this.Foods = response.data;
           })
           .catch((error) => {
@@ -111,10 +111,10 @@ export default {
     dessert() {
       const dessert = document.getElementById("dessert");
         choose = dessert.value;
-        console.log(choose)
+        //console.log(choose)
         this.$axios.get(url + choose)
           .then((response) => {
-            console.log(response.data);
+            //console.log(response.data);
             this.Foods = response.data;
           })
           .catch((error) => {
@@ -124,10 +124,10 @@ export default {
     drink() {
       const drink = document.getElementById("drink");
         choose = drink.value;
-        console.log(choose)
+        //console.log(choose)
         this.$axios.get(url + choose)
           .then((response) => {
-            console.log(response.data);
+            //console.log(response.data);
             this.Foods = response.data;
           })
           .catch((error) => {
@@ -135,7 +135,6 @@ export default {
           });
     },
     addFood(food) {
-      //let postUrl = 'http://localhost:3000/api/order/add';
       this.AddFoods = {
         _id: food._id,
         foodName: food.foodName,
@@ -176,6 +175,33 @@ export default {
       }
 
       // console.log(this.Cart)
+    },
+    checkOut(){
+      let postUrl = 'http://localhost:3000/api/order/add';
+      // console.log(this.Cart)
+      let items = [];
+      for(let i = 0; i < this.Cart.length; i++){
+          items[i] = {
+            foodId: this.Cart[i]._id,
+            quantity: this.Cart[i].quantity
+        }
+      }
+      // Get the queueType form Home page
+      let queueType = JSON.parse(sessionStorage.getItem('temp'));
+      // console.log(queueType);
+
+      this.$axios.post(postUrl, {
+        items: items,
+        queueType: queueType
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) =>{
+        console.log(error);
+      })
+
+      this.Cart = [];
     }
   },
   computed:{

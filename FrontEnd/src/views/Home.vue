@@ -29,18 +29,31 @@
     </b-carousel>  
 
     <router-link :to="{name: 'Foods'}">
-      <button id="orderbtn">Place Order TakeOut</button>
+      <button id="orderbtn" @click="TakeOut">Place Order TakeOut</button>
     </router-link>
 
     <router-link :to="{name: 'Foods'}">
-      <button id="orderbtn">Place Order Dining</button>
+      <button id="orderbtn" @click="DineIn">Place Order Dining</button>
     </router-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HomePage'
+  name: 'HomePage',
+  methods: {
+    // Send the queueType to the Food page
+    TakeOut() {
+      let queueType = 'TakeOut';
+      sessionStorage.setItem('temp', JSON.stringify(queueType));
+      //console.log(queueType);
+    },
+    DineIn(){
+      let queueType = 'DineIn';
+      sessionStorage.setItem('temp', JSON.stringify(queueType));
+      //console.log(queueType);
+    }
+  }
 }
 </script>
 

@@ -19,6 +19,18 @@ Vue.use(IconsPlugin)
 
 Vue.config.productionTip = false
 
+// Currency format
+Vue.filter('toCurrency', function(value) {
+  if(typeof value !== "number") {
+    return value;
+  }
+  var formatter = new Intl.NumberFormat('en-CA', {
+    style: 'currency',
+    currency: 'CAD'
+  });
+  return formatter.format(value);
+})
+
 new Vue({
   router,
   render: h => h(App),
