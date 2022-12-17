@@ -2,15 +2,30 @@
     <header>
         <h3>Group 1 - Restaurant Order System</h3>
         <nav>
-            <router-link class="router-link" to="/Login" tag="button">Login</router-link>
+            <router-link class="router-link" to="/login" tag="button">Log in</router-link>
+            <router-link :to="{path: '/'}" class="router-link">
+                <button class="router-link" @click="logout">Log out</button>
+            </router-link>
         </nav>
     </header>
 </template>
+
+<script>
+export default {
+    methods: {
+        logout() {
+            localStorage.clear();
+            // console.log(localStorage)
+        }
+    }  
+}
+</script>
 
 <style>
 header {
     display: flex;
     border-bottom: 1px solid;
+    height: 54px;
 }
 
 h3 {
@@ -27,6 +42,7 @@ nav {
     width: 100px;
     border-radius: 10px;
     font-size: 20px;
+    margin-left: 10px;
 }
 
 </style>
