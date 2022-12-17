@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
 import { Delete, Param, Put, UseGuards, Headers } from "@nestjs/common/decorators";
 
-import { FoodService } from "src/food/food.service";
+import { FoodService } from "./food.service";
 
-import { AuthService } from "src/auth/auth.service";
-import { JwtAuthGuard } from "src/auth/guard/jwt.guard";
+import { AuthService } from "../auth/auth.service";
+import { JwtAuthGuard } from "../auth/guard/jwt.guard";
 
 @Controller('food')
 export class FoodController {
@@ -15,25 +15,25 @@ export class FoodController {
     
     @Get('meals')
     async getMealFood() {
-        const mealFoods = await this.foodService.getMealFood();
+        const mealFoods = await this.foodService.getFoodByCategory('Meal');
         return mealFoods;
     }
     
     @Get('desserts')
     async getDessertFood() {
-        const dessertFoods = await this.foodService.getDessertFood();
+        const dessertFoods = await this.foodService.getFoodByCategory('Dessert');
         return dessertFoods;
     }
     
     @Get('drinks')
     async getDrinkFood() {
-        const drinkFoods = await this.foodService.getDrinkFood();
+        const drinkFoods = await this.foodService.getFoodByCategory('Drink');
         return drinkFoods;
     }
     
     @Get('snacks')
     async getSnackFood() {
-        const snackFoods = await this.foodService.getSnackFood();
+        const snackFoods = await this.foodService.getFoodByCategory('Snack');
         return snackFoods;
     }
     

@@ -3,11 +3,10 @@ import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 
-import { NewUser } from "src/user/dto/new-user.dto";
-import { ExistingUser } from "src/user/dto/existing-user.dto";
-import { UserService } from "src/user/user.service";
-import { User } from "src/user/user.model";
-import { json } from "stream/consumers";
+import { NewUser } from "../user/dto/new-user.dto";
+import { ExistingUser } from "../user/dto/existing-user.dto";
+import { UserService } from "../user/user.service";
+import { User } from "../user/user.model";
 
 
 @Injectable()
