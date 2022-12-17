@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-link :to="{name: 'Home Page'}">
+    <router-link :to="{name: 'Login'}">
       <h3>Group 1 - Restaurant Order System </h3>
     </router-link>
     <hr>

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Login from '../views/Login'
 import Home from '../views/Home'
 import Foods from '../views/Food'
 import Confirm from '../views/Confirm'
@@ -35,6 +36,11 @@ export default new Router({
             path: '/Complete',
             name: 'Complete',
             component: Complete
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
         }
     ]
 })
