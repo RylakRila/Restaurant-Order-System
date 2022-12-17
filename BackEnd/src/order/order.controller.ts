@@ -19,11 +19,9 @@ export class OrderController {
         @Body('queueType') queueType: 'TakeOut' | 'DineIn',
     ) {
         const user = this.authService.getUserByToken(headers['authorization']);
+        if (user && user.role == 'admin') 
+            return { message: "Admin cannot place order." }
         const result = await this.orderService.placeOrder(items, queueType, user)
-            .catch(err => {
-                console.error(err);
-                return err;
-            });
         return result;
     }
     
@@ -64,7 +62,7 @@ export class OrderController {
         @Param('orderId') 
         orderId: string
     ) {
-        if (this.authService.getUserByToken(headers['authorization']).role !== "admin")     
+        if (this.authService.getUserByToken(headers['authorization']).role !== "admin")   
             return {message: 'You are not authorized to finish order'}
         const result = await this.orderService.finishesOrder(orderId);
         return { orderId: result._id, message: 'Order finished' };

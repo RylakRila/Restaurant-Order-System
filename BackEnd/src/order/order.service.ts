@@ -24,9 +24,7 @@ export class OrderService {
         items: {foodId: string, quantity: number}[],
         queueType: 'TakeOut' | 'DineIn',
         user: User
-    ) {
-        if (user && user.role === 'admin') throw new Error('Admin cannot place order.');
-        
+    ) { 
         let orderItems: Types.ObjectId[] = [],
             totalPrice: Decimal = new Decimal(0);
         
