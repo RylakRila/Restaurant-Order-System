@@ -17,7 +17,7 @@ export default {
     data() {
         return {
             username:'',
-            password:'',
+            password:''
         }
     },
     methods: {
@@ -25,7 +25,6 @@ export default {
             const url = 'http://localhost:3000/api/login';
             let name = this.username;
             let pw = this.password;
-            let token = '';
 
             if(name != '' && pw != ''){
                 this.$axios.post(url, {
@@ -35,26 +34,17 @@ export default {
                 .then(response => {
                     console.log(response.data);
                     localStorage.setItem('token', response.data.token);
-                    token = localStorage.getItem('token');
-                    console.log(token);
-                    //localStorage.setItem('expiresIn', response.data.expiresIn);
+
+                    if(localStorage.getItem('token') !== "undefined") {
+                        this.$router.push({name: 'Home Page'});
+                    }
                 })
                 .catch(error =>{
                     console.log(error);
                 })
             }
-
-            this.$cookies.set('login', name , "30min");
-            console.log("Cookie:")
-            console.log(this.$cookies.get('login'));
-
-            if(this.$cookies.get('login') && token) {
-                this.$router.push({name: 'Home Page'});
-            }
-
         },
         removeCookie() {
-            this.$cookies.remove('login');
             localStorage.clear();
         }
     }
