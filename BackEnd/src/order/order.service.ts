@@ -63,6 +63,12 @@ export class OrderService {
             finished: false
         });
         
+        orderItems.forEach(async itemId => {
+            const orderItem = await this.orderItemService.getOrderItemById(itemId);
+            orderItem.orderId = newOrder._id;
+            await orderItem.save();
+        });
+        
         return newOrder;
     }
     
@@ -77,9 +83,7 @@ export class OrderService {
     
     async cancelOrder(orderInfo: object) {
         const order = new this.orderModel(orderInfo);
-        return await Promise.all(order.items.map(async itemId => {
-            return await this.orderItemService.deleteOrderItem(itemId);
-        }));
+        return await this.orderItemService.deleteOrderItem(order.id);
     }
     
     async finishesOrder(orderId: string) {
@@ -94,11 +98,7 @@ export class OrderService {
     }
     
     async deleteOrder(orderId: string) {
-        const order = await this.orderModel.findById(orderId);
-        await Promise.all(order.items.map(async item => {
-            await this.orderItemService.deleteOrderItem(item);
-        }));
-        
+        this.orderItemService.deleteOrderItem(orderId);
         return await this.orderModel.deleteOne({ _id: orderId }).exec();
     }
     

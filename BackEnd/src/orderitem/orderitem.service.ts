@@ -24,8 +24,12 @@ export class OrderItemService {
         return result;
     }
     
-    async deleteOrderItem(orderItemId: string) {
-        const result = await this.orderItemModel.deleteOne({ _id: orderItemId }).exec();
+    async deleteOrderItem(orderId: string) {
+        const result = await this.orderItemModel.deleteMany({ orderId: orderId }).exec();
         return result;
+    }
+    
+    async getOrderItemById(orderItemId: Types.ObjectId) {
+        return await this.orderItemModel.findById(orderItemId).exec();
     }
 }
