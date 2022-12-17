@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Login</h1>
+        <h1 style="display: flex; justify-content: center;">Login</h1>
         <form>
             <input type="text" v-model="username" placeholder="User Name" class="login" id="username" required/>
             <input type="password" v-model="password" placeholder="Password" class="login" id="password" required/>
