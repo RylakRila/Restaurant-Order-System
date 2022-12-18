@@ -35,7 +35,7 @@ export default {
             .then(response => {
                 localStorage.setItem('token', response.data.token);
 
-                if(localStorage.getItem('token') !== "undefined") {
+                if(localStorage.getItem('token') !== undefined) {
                     this.$router.push({name: 'Home Page'});
                 }
             })
