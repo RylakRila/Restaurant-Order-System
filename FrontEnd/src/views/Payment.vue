@@ -100,6 +100,7 @@ export default {
   height: 50px;
   background: #5029AA;
   border-style: none;
+  margin: 0 20px 0 20px;
 }
 
 </style>

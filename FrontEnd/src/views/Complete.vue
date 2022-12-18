@@ -5,7 +5,8 @@
     <h2 style="margin: 80px auto; font-weight: bold; text-align: center;">Thank you!</h2>
 
     <div id="textBox">
-      <p style="margin-top: 20px; font-weight: bold; font-size: 22px;">Here is Your Number</p>
+      <p style="margin-top: 20px; font-weight: bold; font-size: 22px;">Here is Your Number 
+        <br>{{this.number.queue.queueNumber}}</p>
     </div>
 
     <router-link :to="{name: 'Home Page'}">
@@ -17,7 +18,20 @@
 
 <script>
 export default {
-  name: 'Complete'
+  name: 'Complete',
+  data() {
+    return {
+      number:''
+    }
+  },
+  methods: {
+    getNumber() {
+      this.number = JSON.parse(localStorage.getItem('number'))
+    }
+  },
+  mounted() {
+    this.getNumber()
+  }
 }
 </script>
 

@@ -31,7 +31,7 @@
       </table>
       <div class="checkDiv">
         <p>Total: {{countTotal | toCurrency}}</p>
-        <router-link :to="{name: ''}">
+        <router-link :to="{name: 'Confirm'}">
           <button class="checkBtn" @click="checkOut">Check Out</button>
         </router-link>
       </div>
@@ -66,7 +66,6 @@
 </template>
 
 <script>
-
 const url = 'http://localhost:3000/api/food/';
 let choose;
 
@@ -156,8 +155,8 @@ export default {
         this.Cart.push(this.AddFoods)
       }
 
-      // console.log(this.AddFoods)
-      // console.log(this.Cart)
+      //console.log(this.AddFoods)
+      //console.log(this.Cart)
     },
     removeFood(food) {
       let remove = {
@@ -176,7 +175,7 @@ export default {
 
       // console.log(this.Cart)
     },
-    checkOut(){
+    async checkOut(){
       let postUrl = 'http://localhost:3000/api/order/add';
       // console.log(this.Cart)
       let items = [];
@@ -186,16 +185,21 @@ export default {
             quantity: this.Cart[i].quantity
         }
       }
+      
+      localStorage.setItem('cart', JSON.stringify(this.Cart))
       // Get the queueType form Home page
       let queueType = JSON.parse(sessionStorage.getItem('temp'));
-      // console.log(queueType);
+      //console.log(queueType);
 
-      this.$axios.post(postUrl, {
+      await this.$axios.post(postUrl, {
         items: items,
         queueType: queueType
       })
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
+        if(response.data != null){
+          localStorage.setItem('order', JSON.stringify(response.data))
+        }
       })
       .catch((error) =>{
         console.log(error);
@@ -225,7 +229,7 @@ export default {
         console.log(error);
       });
       */
-  }
+  },
 }
 </script>
 

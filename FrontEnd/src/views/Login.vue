@@ -46,6 +46,7 @@ export default {
         },
         removeCookie() {
             localStorage.clear();
+            sessionStorage.clear();
         }
     }
 }

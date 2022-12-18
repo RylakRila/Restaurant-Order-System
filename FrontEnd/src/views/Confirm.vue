@@ -6,20 +6,112 @@
     <hr style="width: 30%; margin: auto;">
 
     <div id="orderBox">
-      <!--Place order here--> 
+      <table style="width: 60%; margin:0 auto 0 auto;">
+        <thead>
+          <tr>
+            <th style="width:40%">Name</th>
+            <th style="width:20%">Price</th>
+            <th style="width:25%">Quantity</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody >
+          <tr v-for="food in cart" :key="food._id">
+            <th style="width:40%">{{ food.foodName }}</th>
+            <th style="width:20%;">{{ food.price }}</th>
+            <th style="width:25%">{{ food.quantity}}</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>{{countTotal | toCurrency}}</th>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div>
       <router-link :to="{name: 'Payment'}">
-        <button id="payBtn">Pay</button>
-      </router-link>  
+        <button id="payBtn" @click="sendOrder">Pay</button>
+      </router-link>
+      <router-link :to="{name: 'Foods'}">
+        <button id="payBtn" @click="cancelOrder">Cancel</button>
+      </router-link>    
     </div>
   </div>
 </template>
 
 <script>
+const confirmUrl = 'http://localhost:3000/api/order/add/save';
+const deleteUrl = 'http://localhost:3000/api/order/cancel';
 export default {
-  name: 'Confirm'
+  name: 'Confirm',
+  data() {
+    return {
+      order: [],
+      cart: []
+    }
+  },
+  mounted() {
+    this.getOrder();
+  },
+  methods: {
+    getOrder() {
+      //console.log(localStorage.getItem('order'))
+      this.order = JSON.parse(localStorage.getItem('order'))
+      //console.log('Order: ')
+      //console.log(this.order)
+      this.cart = JSON.parse(localStorage.getItem('cart'))
+      //console.log('Cart: ')
+      //console.log(this.cart)
+    },
+    sendOrder() {
+      this.$axios.post(confirmUrl, {
+        items: this.order.items,
+        orderDate: this.order.orderDate,
+        totalPrice: this.order.totalPrice,
+        userId: this.order.userId,
+        queue: this.order.queue,
+        finished: this.order.finished,
+        _id: this.order._id
+      })
+      .then(response => {
+        console.log(response.data)
+        localStorage.setItem('number', JSON.stringify(response.data))
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+    cancelOrder() {
+      this.$axios.delete(deleteUrl, {
+        items: this.order.items,
+        orderDate: this.order.orderDate,
+        totalPrice: this.order.totalPrice,
+        userId: this.order.userId,
+        queue: this.order.queue,
+        finished: this.order.finished,
+        _id: this.order._id
+      })
+      .then(response => {
+        console.log(response.data)
+        console.log(this.order)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+  },
+  computed:{
+    countTotal() {
+      let countTotal = 0;
+      for(let i in this.cart){
+        countTotal += parseFloat(this.cart[i].quantity * this.cart[i].price);
+      }
+      return countTotal;
+    }
+  },
 }
 </script>
 
@@ -46,5 +138,4 @@ export default {
   Height: 50vh;
   margin-top: 20px;
 }
-
 </style>

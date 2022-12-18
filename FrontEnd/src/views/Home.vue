@@ -1,40 +1,15 @@
 <template>
   <div id="home">
-    <div id="title">Home Page</div>
-
-    <b-carousel
-      id="carousel-1"
-      v-model="slide"
-      :interval="4000"
-      controls
-      indicators
-      background="#ababab"
-      img-width="1024"
-      img-height="480"
-      style="text-shadow: 1px 1px 2px #333;"
-      @sliding-start="onSlideStart"
-      @sliding-end="onSlideEnd"
-    >
-      <!-- Text slides with image -->
-      <b-carousel-slide
-        caption="Food 1"
-        text=""
-        img-src="https://picsum.photos/1024/480/?image=52"
-      ></b-carousel-slide>
-      <b-carousel-slide
-        caption="Food 2"
-        text=""
-        img-src="https://picsum.photos/1024/480/?image=52"
-      ></b-carousel-slide>
-    </b-carousel>  
-
-    <router-link :to="{name: 'Foods'}">
+    <div id="title">Home Page</div> 
+    <div>
+      <router-link :to="{name: 'Foods'}">
       <button id="orderbtn" @click="TakeOut">Place Order TakeOut</button>
     </router-link>
 
     <router-link :to="{name: 'Foods'}">
       <button id="orderbtn" @click="DineIn">Place Order Dining</button>
     </router-link>
+    </div>
   </div>
 </template>
 
