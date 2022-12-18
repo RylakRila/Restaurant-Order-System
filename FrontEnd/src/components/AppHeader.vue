@@ -16,7 +16,6 @@ export default {
         logout() {
             localStorage.clear();
             sessionStorage.clear();
-            // console.log(localStorage)
         }
     }  
 }

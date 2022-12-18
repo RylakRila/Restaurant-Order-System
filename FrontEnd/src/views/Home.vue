@@ -17,16 +17,13 @@
 export default {
   name: 'HomePage',
   methods: {
-    // Send the queueType to the Food page
     TakeOut() {
       let queueType = 'TakeOut';
       sessionStorage.setItem('temp', JSON.stringify(queueType));
-      //console.log(queueType);
     },
     DineIn(){
       let queueType = 'DineIn';
       sessionStorage.setItem('temp', JSON.stringify(queueType));
-      //console.log(queueType);
     }
   }
 }

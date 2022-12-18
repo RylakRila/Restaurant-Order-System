@@ -69,7 +69,6 @@
 const url = 'http://localhost:3000/api/food/';
 let choose;
 
-// const URL = '/testData.json';
 export default {
   name: 'FoodPage',
   data() {
@@ -82,25 +81,20 @@ export default {
   methods: {
     meal() {
       const meal = document.getElementById("meal");
-      //console.log(meal.value)
       choose = meal.value;
-      // console.log(choose)
       this.$axios.get(url + choose)
         .then((response) => {
-          //console.log(response.data);
           this.Foods = response.data
         })
-        .catch((error) => {
-          // console.log(error);
+        .catch(error => {
+          console.log(error);
         });
     },
     snack() {
       const snack = document.getElementById("snack");
         choose = snack.value;
-        //console.log(choose)
         this.$axios.get(url + choose)
           .then((response) => {
-            //console.log(response.data);
             this.Foods = response.data;
           })
           .catch((error) => {
@@ -110,10 +104,8 @@ export default {
     dessert() {
       const dessert = document.getElementById("dessert");
         choose = dessert.value;
-        //console.log(choose)
         this.$axios.get(url + choose)
           .then((response) => {
-            //console.log(response.data);
             this.Foods = response.data;
           })
           .catch((error) => {
@@ -123,10 +115,8 @@ export default {
     drink() {
       const drink = document.getElementById("drink");
         choose = drink.value;
-        //console.log(choose)
         this.$axios.get(url + choose)
           .then((response) => {
-            //console.log(response.data);
             this.Foods = response.data;
           })
           .catch((error) => {
@@ -154,9 +144,6 @@ export default {
       if(!this.Cart.some(f => f._id === this.AddFoods._id)) {
         this.Cart.push(this.AddFoods)
       }
-
-      //console.log(this.AddFoods)
-      //console.log(this.Cart)
     },
     removeFood(food) {
       let remove = {
@@ -172,50 +159,9 @@ export default {
           this.Cart.splice(itemRemove, 1);
         }
       }
-
-      // console.log(this.Cart)
     },
     async checkOut(){
-      // let postUrl = 'http://localhost:3000/api/order/add';
-      // // console.log(this.Cart)
-      // let items = [];
-      // for(let i = 0; i < this.Cart.length; i++){
-      //     items[i] = {
-      //       foodId: this.Cart[i]._id,
-      //       quantity: this.Cart[i].quantity
-      //   }
-      // }
-      
       localStorage.setItem('cart', JSON.stringify(this.Cart))
-      // Get the queueType form Home page
-      // let queueType = JSON.parse(sessionStorage.getItem('temp'));
-      //console.log(queueType);
-
-      // await this.$axios.post(postUrl, {
-      //   items: items,
-      //   queueType: queueType
-      // })
-      // .then((response) => {
-      //   //console.log(response.data);
-      //   if(response.data != null){
-      //     localStorage.setItem('order', JSON.stringify(response.data))
-      //   }
-      // })
-      // .catch((error) =>{
-      //   console.log(error);
-      // })
-      
-      // const response = await this.$axios.post(postUrl, {
-      //   items: items,
-      //   queueType: queueType
-      // }, (error) => {
-      //   console.log(error);
-      // });
-      
-      // if(response.data) {
-      //   localStorage.setItem('order', JSON.stringify(response.data))
-      // }
-
       this.Cart = [];
     }
   },
@@ -229,17 +175,7 @@ export default {
     }
   },
   mounted(){
-    /*
-    // Test uses
-    axios.get(URL)
-      .then((response) => {
-        console.log(response.data);
-        this.Foods = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-      */
+    
   },
 }
 </script>

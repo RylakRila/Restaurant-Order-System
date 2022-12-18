@@ -87,13 +87,10 @@ export default {
       }
     },
     getOrder() {
-      //console.log(localStorage.getItem('order'))
       this.order = JSON.parse(localStorage.getItem('order'));
       console.log('Order: ')
       console.log(this.order._id)
       this.cart = JSON.parse(localStorage.getItem('cart'))
-      //console.log('Cart: ')
-      //console.log(this.cart)
     },
     sendOrder() {
       this.$axios.post(confirmUrl, {
