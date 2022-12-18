@@ -66,7 +66,7 @@
 </template>
 
 <script>
-const url = 'http://localhost:3000/api/food/';
+const url = 'food/';
 let choose;
 
 export default {
@@ -82,7 +82,7 @@ export default {
     meal() {
       const meal = document.getElementById("meal");
       choose = meal.value;
-      this.$axios.get(url + choose)
+      this.$axios.get(`${this.$backEndUrl}${url}` + choose)
         .then((response) => {
           this.Foods = response.data
         })
@@ -93,7 +93,7 @@ export default {
     snack() {
       const snack = document.getElementById("snack");
         choose = snack.value;
-        this.$axios.get(url + choose)
+        this.$axios.get(`${this.$backEndUrl}${url}` + choose)
           .then((response) => {
             this.Foods = response.data;
           })
@@ -104,7 +104,7 @@ export default {
     dessert() {
       const dessert = document.getElementById("dessert");
         choose = dessert.value;
-        this.$axios.get(url + choose)
+        this.$axios.get(`${this.$backEndUrl}${url}` + choose)
           .then((response) => {
             this.Foods = response.data;
           })
@@ -115,7 +115,7 @@ export default {
     drink() {
       const drink = document.getElementById("drink");
         choose = drink.value;
-        this.$axios.get(url + choose)
+        this.$axios.get(`${this.$backEndUrl}${url}` + choose)
           .then((response) => {
             this.Foods = response.data;
           })

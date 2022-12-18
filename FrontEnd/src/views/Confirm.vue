@@ -44,9 +44,10 @@
 
 <script>
 import axios from 'axios';
+import Vue from 'vue';
 
-const confirmUrl = 'http://localhost:3000/api/order/add/save';
-const deleteUrl = 'http://localhost:3000/api/order/cancel';
+const confirmUrl = 'order/add/save';
+const deleteUrl = 'order/cancel';
 export default {
   name: 'Confirm',
   data() {
@@ -60,7 +61,7 @@ export default {
   },
   methods: {
     async beforeEnter(to, from, next) {
-      let postUrl = 'http://localhost:3000/api/order/add',
+      let postUrl = `${Vue.prototype.$backEndUrl}order/add`,
           items = [],
           cart = JSON.parse(localStorage.getItem('cart')),
           queueType = JSON.parse(sessionStorage.getItem('temp'));
@@ -93,7 +94,7 @@ export default {
       this.cart = JSON.parse(localStorage.getItem('cart'))
     },
     sendOrder() {
-      this.$axios.post(confirmUrl, {
+      this.$axios.post(`${this.$backEndUrl}${confirmUrl}`, {
         items: this.order.items,
         orderDate: this.order.orderDate,
         totalPrice: this.order.totalPrice,
@@ -111,7 +112,7 @@ export default {
       })
     },
     async cancelOrder() {
-      await axios.delete(deleteUrl, {data: {
+      await axios.delete(`${this.$backEndUrl}${deleteUrl}`, {data: {
         items: this.order.items,
         orderDate: this.order.orderDate,
         totalPrice: this.order.totalPrice,

@@ -22,7 +22,7 @@ export default {
     },
     methods: {
         login() {
-            const url = 'http://localhost:3000/api/login';
+            const url = `${this.$backEndUrl}login`;
             let name = this.username;
             let pw = this.password;
             
