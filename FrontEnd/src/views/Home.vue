@@ -7,7 +7,7 @@
     </router-link>
 
     <router-link :to="{name: 'Foods'}">
-      <button id="orderbtn" @click="DineIn">Place Order Dining</button>
+      <button id="orderbtn" @click="DineIn">Place Order DineIn</button>
     </router-link>
     </div>
   </div>
