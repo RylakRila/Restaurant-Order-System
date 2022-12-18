@@ -3,7 +3,7 @@
         <h3>Group 1 - Restaurant Order System</h3>
         <nav>
             <router-link class="router-link" to="/login" tag="button">Log in</router-link>
-            <router-link :to="{path: '/'}" class="router-link">
+            <router-link :to="{path: '/login'}" class="router-link">
                 <button class="router-link" @click="logout">Log out</button>
             </router-link>
         </nav>

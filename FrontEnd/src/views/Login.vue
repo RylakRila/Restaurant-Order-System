@@ -25,24 +25,23 @@ export default {
             const url = 'http://localhost:3000/api/login';
             let name = this.username;
             let pw = this.password;
+            
+            if (!name || !pw) return;
+            
+            this.$axios.post(url, {
+                username: name,
+                password: pw
+            })                
+            .then(response => {
+                localStorage.setItem('token', response.data.token);
 
-            if(name != '' && pw != ''){
-                this.$axios.post(url, {
-                    username: name,
-                    password: pw
-                })                
-                .then(response => {
-                    console.log(response.data);
-                    localStorage.setItem('token', response.data.token);
-
-                    if(localStorage.getItem('token') !== "undefined") {
-                        this.$router.push({name: 'Home Page'});
-                    }
-                })
-                .catch(error =>{
-                    console.log(error);
-                })
-            }
+                if(localStorage.getItem('token') !== "undefined") {
+                    this.$router.push({name: 'Home Page'});
+                }
+            })
+            .catch(error =>{
+                console.log(error);
+            })
         },
         removeCookie() {
             localStorage.clear();
