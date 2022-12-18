@@ -175,7 +175,7 @@ export default {
     }
   },
   mounted(){
-    
+    this.meal();
   },
 }
 </script>
