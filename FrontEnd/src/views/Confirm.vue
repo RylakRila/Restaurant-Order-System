@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 const confirmUrl = 'http://localhost:3000/api/order/add/save';
 const deleteUrl = 'http://localhost:3000/api/order/cancel';
 export default {
@@ -57,11 +59,38 @@ export default {
     this.getOrder();
   },
   methods: {
+    async beforeEnter(to, from, next) {
+      let postUrl = 'http://localhost:3000/api/order/add',
+          items = [],
+          cart = JSON.parse(localStorage.getItem('cart')),
+          queueType = JSON.parse(sessionStorage.getItem('temp'));
+          
+      cart.forEach(item => {
+        items.push({
+          foodId: item._id,
+          quantity: item.quantity
+        })
+      });
+      
+      const response = await axios.post(postUrl, {
+        items: items,
+        queueType: queueType
+      }, (error) => {
+        console.log(error);
+      });
+      
+      console.log(response.data.items);
+      
+      if(response.data) {
+        localStorage.setItem('order', JSON.stringify(response.data))
+        next();
+      }
+    },
     getOrder() {
       //console.log(localStorage.getItem('order'))
-      this.order = JSON.parse(localStorage.getItem('order'))
-      //console.log('Order: ')
-      //console.log(this.order)
+      this.order = JSON.parse(localStorage.getItem('order'));
+      console.log('Order: ')
+      console.log(this.order._id)
       this.cart = JSON.parse(localStorage.getItem('cart'))
       //console.log('Cart: ')
       //console.log(this.cart)
@@ -78,25 +107,27 @@ export default {
       })
       .then(response => {
         console.log(response.data)
-        localStorage.setItem('number', JSON.stringify(response.data))
+        localStorage.setItem('number', JSON.stringify(response.data.queue.queueNumber))
       })
       .catch(error => {
         console.log(error)
       })
     },
-    cancelOrder() {
-      this.$axios.delete(deleteUrl, {
+    async cancelOrder() {
+      await axios.delete(deleteUrl, {data: {
         items: this.order.items,
         orderDate: this.order.orderDate,
         totalPrice: this.order.totalPrice,
-        userId: this.order.userId,
-        queue: this.order.queue,
+        userId: this.order.userId ? this.order.userId : undefined,
+        queue: {
+          queueType: this.order.queue.queueType,
+        },
         finished: this.order.finished,
         _id: this.order._id
-      })
+      }})
       .then(response => {
         console.log(response.data)
-        console.log(this.order)
+        console.log(this.order.items)
       })
       .catch(error => {
         console.log(error)

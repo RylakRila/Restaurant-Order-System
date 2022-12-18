@@ -6,7 +6,7 @@
 
     <div id="textBox">
       <p style="margin-top: 20px; font-weight: bold; font-size: 22px;">Here is Your Number 
-        <br>{{this.number.queue.queueNumber}}</p>
+        <br>{{this.number}}</p>
     </div>
 
     <router-link :to="{name: 'Home Page'}">
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     getNumber() {
-      this.number = JSON.parse(localStorage.getItem('number'))
+      this.number = JSON.parse(localStorage.getItem('number'));
     }
   },
   mounted() {

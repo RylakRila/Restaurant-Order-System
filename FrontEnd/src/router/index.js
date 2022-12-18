@@ -18,7 +18,7 @@ export default new Router({
             component: Home,
             meta: {
                 requiresAuth: true
-              }
+            }
         },
         {
             path: '/Foods',
@@ -26,15 +26,16 @@ export default new Router({
             component: Foods,
             meta: {
                 requiresAuth: true
-              }
+            }
         },
         {
             path: '/Confirm',
             name: 'Confirm',
             component: Confirm,
+            beforeEnter: Confirm.methods.beforeEnter,
             meta: {
                 requiresAuth: true
-              }
+            }
         },
         {
             path: '/Payment',
@@ -42,7 +43,7 @@ export default new Router({
             component: Payment,
             meta: {
                 requiresAuth: true
-              }
+            }
         },
         {
             path: '/Complete',
@@ -50,7 +51,7 @@ export default new Router({
             component: Complete,
             meta: {
                 requiresAuth: true
-              }
+            }
         },
         {
             path: '/login',

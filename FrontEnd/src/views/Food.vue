@@ -176,34 +176,45 @@ export default {
       // console.log(this.Cart)
     },
     async checkOut(){
-      let postUrl = 'http://localhost:3000/api/order/add';
-      // console.log(this.Cart)
-      let items = [];
-      for(let i = 0; i < this.Cart.length; i++){
-          items[i] = {
-            foodId: this.Cart[i]._id,
-            quantity: this.Cart[i].quantity
-        }
-      }
+      // let postUrl = 'http://localhost:3000/api/order/add';
+      // // console.log(this.Cart)
+      // let items = [];
+      // for(let i = 0; i < this.Cart.length; i++){
+      //     items[i] = {
+      //       foodId: this.Cart[i]._id,
+      //       quantity: this.Cart[i].quantity
+      //   }
+      // }
       
       localStorage.setItem('cart', JSON.stringify(this.Cart))
       // Get the queueType form Home page
-      let queueType = JSON.parse(sessionStorage.getItem('temp'));
+      // let queueType = JSON.parse(sessionStorage.getItem('temp'));
       //console.log(queueType);
 
-      await this.$axios.post(postUrl, {
-        items: items,
-        queueType: queueType
-      })
-      .then((response) => {
-        //console.log(response.data);
-        if(response.data != null){
-          localStorage.setItem('order', JSON.stringify(response.data))
-        }
-      })
-      .catch((error) =>{
-        console.log(error);
-      })
+      // await this.$axios.post(postUrl, {
+      //   items: items,
+      //   queueType: queueType
+      // })
+      // .then((response) => {
+      //   //console.log(response.data);
+      //   if(response.data != null){
+      //     localStorage.setItem('order', JSON.stringify(response.data))
+      //   }
+      // })
+      // .catch((error) =>{
+      //   console.log(error);
+      // })
+      
+      // const response = await this.$axios.post(postUrl, {
+      //   items: items,
+      //   queueType: queueType
+      // }, (error) => {
+      //   console.log(error);
+      // });
+      
+      // if(response.data) {
+      //   localStorage.setItem('order', JSON.stringify(response.data))
+      // }
 
       this.Cart = [];
     }
