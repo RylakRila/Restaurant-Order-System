@@ -7,7 +7,7 @@ import { BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 
 Vue.prototype.$axios = axios;
 Vue.prototype.qs = qs;
-Vue.prototype.$backEndUrl = process.env.SERVER_URL || 'http://localhost:3000/api/';
+Vue.prototype.$backEndUrl = process.env.VUE_APP_SERVER_URL || 'http://localhost:3000/api/';
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
